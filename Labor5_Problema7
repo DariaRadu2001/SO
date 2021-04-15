@@ -1,0 +1,11 @@
+#!/bin/bash
+#$@ hat in einem Array alle Parameter
+for dir in $@
+do
+  #echo $dir
+  #alle Zeilen mit einer Lange grosser als 30 werden angezeigt
+  #NR-Die Nummer der aktuell bearbeitete Zeile
+  #$1 erstes Wort aus der Zeile
+  #$NF letztes Wort aus der Zeile
+  awk 'length($0)>30 {print NR, $1, $NF}' $dir
+done

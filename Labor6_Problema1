@@ -1,0 +1,19 @@
+#!/bin/bash
+ct=0
+#im der Variable array werde ich alle Namen der Intfunktionen einpragen
+#mit grep suche ich alle Zeilen die "int" enthaleten
+#fur dem awk habe ich als Input das Output aus grep
+#im awk werde ich in dem Array alle Funktionennamen haben
+array=$(egrep -w 'int' $1 | awk -v ct=0 '{if ($2 != "main" && $3!="=" && $3!="," && $3!=";"){ arr[ct++]=$2}} END{for(i = 0; i < ct; i++) {print arr[i]}}')
+echo $array
+
+#hier untersuche ich wv male jede Funktion in dem Pogramm angerufen wird
+#mit dem For nehme ich jedes Element aus dem Array
+#grep gibt mir jede Zeile, die das Funktion enthalt, -w nimmt
+# nur das gesuchten Wort und mit wc sehe ich wv Male es scheint
+for func in $array
+do
+ nr=$(grep -w -o $func $1 | wc -l)
+ ((nr=$nr-1))
+ echo $func, $nr
+done
